@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { fetchProducts } from "../store/reducers/products-slice";
 import { Product } from "../types/Product";
 
@@ -8,6 +8,8 @@ const ProductsPage = () => {
   const products = useAppSelector((state) => state.product);
   const [productList, setProductsList] = useState<Product[]>(products.products);
   const [selectValue, setSelectValue] = useState("");
+  const categories = getCategories(products.products);
+  console.log(categories);
 
   //fetch Data
   const dispatch = useAppDispatch();
@@ -16,11 +18,19 @@ const ProductsPage = () => {
     setProductsList(products.products);
   }, []);
 
+  //Extract categories as a set
+  function getCategories(products: Product[]) {
+    const categories: string[] = [];
+    products.map((p) => categories.push(p.category));
+    const uniqueCat = [...new Set(categories)];
+    return uniqueCat;
+  }
+
   //Search
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const searchString = event.target.value.toLowerCase();
-      const filteredProducts = productList.filter((p) => {
+      const filteredProducts = products.products.filter((p) => {
         return (
           p.title.toLowerCase().includes(searchString) ||
           p.description.toLowerCase().includes(searchString)
@@ -35,17 +45,24 @@ const ProductsPage = () => {
   );
 
   //Category
+  useEffect(() => {
+    const filteredCategory = products.products.filter((p) => {
+      return p.category.includes(selectValue);
+    });
+    setProductsList(filteredCategory);
+  }, [selectValue]);
+
   function handleSelectChange(event: any) {
     const value = event.target.value;
     setSelectValue(value);
 
-    const filteredCategory = productList.filter((p) => {
-      return p.category.includes(value);
-    });
-    setProductsList(filteredCategory);
-    if (value == "") {
-      setProductsList(products.products);
-    }
+    // const filteredCategory = productList.filter((p) => {
+    //   return p.category.includes(value);
+    // });
+    // setProductsList(filteredCategory);
+    // if (value == "") {
+    //   setProductsList(products.products);
+    // }
   }
 
   return (
@@ -92,10 +109,9 @@ const ProductsPage = () => {
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         >
           <option value="">Category</option>
-          <option value="clothes">Clothes</option>
-          <option value="devices">Digital Devices</option>
-          <option value="accessories">Accessories</option>
-          <option value="books">Books</option>
+          {categories.map((c) => (
+            <option value={c}>{c}</option>
+          ))}
         </select>
       </div>
       {products.loading && <div>Loading...</div>}
@@ -107,7 +123,7 @@ const ProductsPage = () => {
           <ul className="grid grid-cols-3 gap-4">
             {productList.map((product: Product) => (
               <li className="row-span-3" key={product.id}>
-                <ProductCard props={product} />
+                <ProductCard product={product} />
               </li>
             ))}
           </ul>

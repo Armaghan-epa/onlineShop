@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { fetchUser } from "../store/reducers/user-slice";
 import { User } from "../types/User";
 

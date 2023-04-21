@@ -2,15 +2,17 @@ import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../img/logo1.png";
 import profileIcon from "../img/profile-icon.png";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { fetchUser } from "../store/reducers/user-slice";
 
 function MainNavigation() {
   const user = useAppSelector((state) => state.user);
+  const cartQuantiy = useAppSelector((state) => state.cart.totalQuantity);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchUser());
   }, []);
+
   return (
     <nav className="bg-gray-200 flex justify-between items-center h-12">
       <div className="flex items-center ms-9">
@@ -24,11 +26,13 @@ function MainNavigation() {
       <NavLink to="/">
         <img src={logo} className="h-10" />
       </NavLink>
-      <div className="flex space-x-2 justify-between me-12">
-        <NavLink to="/cart">Cart</NavLink>
-        <div className="w-8 h-8 bg-red-600 rounded-full">
-          <span className="purchase-number"></span>
-        </div>
+      <div>
+        <NavLink to="/cart" className="flex space-x-2 justify-between me-12">
+          <span className="mt-1">Cart</span>
+          <div className="px-3 pt-1 w-8 h-8 bg-red-600 rounded-full">
+            <span className="text-white">{cartQuantiy}</span>
+          </div>
+        </NavLink>
       </div>
     </nav>
   );
