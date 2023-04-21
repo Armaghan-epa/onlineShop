@@ -22,16 +22,18 @@ const ProductCard = (props: { product: Product }) => {
   const dispatch = useAppDispatch();
 
   const { product } = props;
+  const { id, price, title, description } = product;
 
   const addToCartHandler = () => {
     dispatch(
       cartActions.addItemToCart({
-        product,
+        id,
+        price,
+        title,
+        description,
       })
     );
   };
-
-  console.log(product);
 
   return (
     <>

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CartItem } from "../../types/CartItem";
+import { CartItemType } from "../../types/CartItem";
 import { Product } from "../../types/Product";
 
 type initialStateType = {
-  items: CartItem[];
+  items: CartItemType[];
   totalQuantity: number;
   changed: boolean;
 };
@@ -30,6 +30,7 @@ const cartSlice = createSlice({
           quantity: 1,
           totalPrice: newItem.price,
           name: newItem.title,
+          description: newItem.description,
         });
       } else {
         existingItem.quantity++;
