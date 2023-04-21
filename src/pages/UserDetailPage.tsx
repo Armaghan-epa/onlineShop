@@ -1,12 +1,7 @@
 import UserCard from "../components/UserCard";
-import { User } from "../types/User";
 
-interface DetailPageProps {
-  user: User | null;
-}
-
-const UserDetailPage: React.FC<DetailPageProps> = ({ user }) => {
-  return <UserCard user={user} />;
+const UserDetailPage: React.FC = () => {
+  return <UserCard />;
 };
 
 export default UserDetailPage;

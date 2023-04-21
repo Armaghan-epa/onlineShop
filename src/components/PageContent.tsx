@@ -1,5 +1,3 @@
-import classes from "./PageContent.module.css";
-
 interface PageContentProps {
   title: string;
   children: React.ReactNode;
@@ -7,7 +5,7 @@ interface PageContentProps {
 
 const PageContent: React.FC<PageContentProps> = ({ title, children }) => {
   return (
-    <div className={classes.content}>
+    <div>
       <h1>{title}</h1>
       {children}
     </div>
