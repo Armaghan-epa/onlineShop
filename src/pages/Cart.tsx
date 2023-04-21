@@ -1,5 +1,6 @@
 import CartItem from "../components/CartItem";
-import { useAppSelector } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { cartActions } from "../store/reducers/cart-slice";
 import { CartItemType } from "../types/CartItem";
 
 const CartPage = () => {
