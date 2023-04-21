@@ -10,7 +10,7 @@ export type User = {
   address: {
     city: string;
     street: String;
-    number: number;
+    number: String;
     zipcode: String;
     geolocation: {
       lat: String;
