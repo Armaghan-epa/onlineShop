@@ -1,7 +1,7 @@
 {
   "name": "final_project",
   "version": "0.1.0",
-  "homepage": "https://Armaghan-epa.github.io/",
+  "homepage": "https://Armaghan-epa.github.io/onlineShop",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",

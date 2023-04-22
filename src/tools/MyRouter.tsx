@@ -7,7 +7,7 @@ import CartPage from "../pages/Cart";
 
 const Router = createBrowserRouter([
   {
-    path: "/",
+    path: "/onlineShop",
     element: <RootLayout />,
     errorElement: <ErrorPage />,
     children: [

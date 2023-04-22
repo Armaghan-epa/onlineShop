@@ -8,6 +8,7 @@ const ProductsPage = () => {
   const products = useAppSelector((state) => state.product);
   const [productList, setProductsList] = useState<Product[]>(products.products);
   const [selectValue, setSelectValue] = useState("");
+  const [isFiltered, setIsFilteres] = useState(false);
   const categories = getCategories(products.products);
   console.log(categories);
 
@@ -37,8 +38,9 @@ const ProductsPage = () => {
         );
       });
       setProductsList(filteredProducts);
+      setIsFilteres(true);
       if (searchString == "") {
-        setProductsList(products.products);
+        setIsFilteres(false);
       }
     },
     []
@@ -50,6 +52,7 @@ const ProductsPage = () => {
       return p.category.includes(selectValue);
     });
     setProductsList(filteredCategory);
+    setIsFilteres(true);
   }, [selectValue]);
 
   function handleSelectChange(event: any) {
@@ -118,14 +121,20 @@ const ProductsPage = () => {
       {!products.loading && products.error ? (
         <div>Error: {products.error}</div>
       ) : null}
-      {!products.loading && products.products.length ? (
+      {!products.loading && productList.length ? (
         <div className=" my-12 mx-10">
           <ul className="grid grid-cols-3 gap-4">
-            {productList.map((product: Product) => (
-              <li className="row-span-3" key={product.id}>
-                <ProductCard product={product} />
-              </li>
-            ))}
+            {!isFiltered
+              ? products.products.map((product: Product) => (
+                  <li className="row-span-3" key={product.id}>
+                    <ProductCard product={product} />
+                  </li>
+                ))
+              : productList.map((product: Product) => (
+                  <li className="row-span-3" key={product.id}>
+                    <ProductCard product={product} />
+                  </li>
+                ))}
           </ul>
         </div>
       ) : null}
