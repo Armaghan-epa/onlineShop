@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { fetchProducts } from "../store/reducers/products-slice";
@@ -6,18 +6,21 @@ import { Product } from "../types/Product";
 
 const ProductsPage = () => {
   const products = useAppSelector((state) => state.product);
-  const [productList, setProductsList] = useState<Product[]>(products.products);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [selectValue, setSelectValue] = useState("");
-  const [isFiltered, setIsFilteres] = useState(false);
+  const [searchString, setSearchString] = useState("");
+  const [isFiltered, setIsFiltered] = useState(false);
   const categories = getCategories(products.products);
-  console.log(categories);
 
   //fetch Data
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchProducts());
-    setProductsList(products.products);
   }, []);
+
+  useEffect(() => {
+    setFilteredProducts(products.products);
+  }, [products.products]);
 
   //Extract categories as a set
   function getCategories(products: Product[]) {
@@ -28,20 +31,24 @@ const ProductsPage = () => {
   }
 
   //Search
+  useEffect(() => {
+    const filteredProducts = products.products.filter((p) => {
+      return (
+        p.title.toLowerCase().includes(searchString) ||
+        p.description.toLowerCase().includes(searchString)
+      );
+    });
+    setFilteredProducts(filteredProducts);
+    setIsFiltered(true);
+    if (searchString == "") {
+      setIsFiltered(false);
+    }
+  }, [searchString]);
+
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      const searchString = event.target.value.toLowerCase();
-      const filteredProducts = products.products.filter((p) => {
-        return (
-          p.title.toLowerCase().includes(searchString) ||
-          p.description.toLowerCase().includes(searchString)
-        );
-      });
-      setProductsList(filteredProducts);
-      setIsFilteres(true);
-      if (searchString == "") {
-        setIsFilteres(false);
-      }
+      const searchValue = event.target.value.toLowerCase();
+      setSearchString(searchValue);
     },
     []
   );
@@ -51,21 +58,18 @@ const ProductsPage = () => {
     const filteredCategory = products.products.filter((p) => {
       return p.category.includes(selectValue);
     });
-    setProductsList(filteredCategory);
-    setIsFilteres(true);
+    if (selectValue != "Category") {
+      setFilteredProducts(filteredCategory);
+      setIsFiltered(true);
+    } else {
+      setIsFiltered(false);
+      setFilteredProducts(products.products);
+    }
   }, [selectValue]);
 
-  function handleSelectChange(event: any) {
+  function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
     const value = event.target.value;
     setSelectValue(value);
-
-    // const filteredCategory = productList.filter((p) => {
-    //   return p.category.includes(value);
-    // });
-    // setProductsList(filteredCategory);
-    // if (value == "") {
-    //   setProductsList(products.products);
-    // }
   }
 
   return (
@@ -89,8 +93,8 @@ const ProductsPage = () => {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   strokeWidth="2"
                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                 ></path>
@@ -107,37 +111,47 @@ const ProductsPage = () => {
         </form>
 
         <select
-          id="countries"
+          id="categories"
           onChange={handleSelectChange}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         >
-          <option value="">Category</option>
-          {categories.map((c) => (
-            <option value={c}>{c}</option>
+          <option value="Category">Category</option>
+          {categories.map((c: string) => (
+            <option value={c} key={c}>
+              {c}
+            </option>
           ))}
         </select>
       </div>
-      {products.loading && <div>Loading...</div>}
+      {products.loading && <div className="text-center mt-10">Loading...</div>}
       {!products.loading && products.error ? (
         <div>Error: {products.error}</div>
       ) : null}
-      {!products.loading && productList.length ? (
-        <div className=" my-12 mx-10">
-          <ul className="grid grid-cols-3 gap-4">
-            {!isFiltered
-              ? products.products.map((product: Product) => (
-                  <li className="row-span-3" key={product.id}>
-                    <ProductCard product={product} />
-                  </li>
-                ))
-              : productList.map((product: Product) => (
-                  <li className="row-span-3" key={product.id}>
-                    <ProductCard product={product} />
-                  </li>
-                ))}
+      {!products.loading && products.products.length ? (
+        <div className="container mx-auto mt-12">
+          <ul className="flex flex-wrap  ">
+            {filteredProducts.map((product: Product) => (
+              <li
+                className=" flex justify-center w-full md:w-1/2 lg:w-1/3 p-2"
+                key={product.id}
+              >
+                <ProductCard product={product} />
+              </li>
+            ))}
           </ul>
         </div>
       ) : null}
+      {/* {!products.loading && products.products.length ? (
+        <div className=" my-12 mx-10">
+          <ul className="grid grid-cols-3 gap-4">
+            {filteredProducts.map((product: Product) => (
+              <li className="w-full md:w-1/2 lg:w-1/3 p-2" key={product.id}>
+                <ProductCard product={product} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null} */}
     </>
   );
 };
