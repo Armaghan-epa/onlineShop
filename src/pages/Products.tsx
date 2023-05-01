@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { fetchProducts } from "../store/reducers/products-slice";
@@ -9,14 +9,13 @@ const ProductsPage = () => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [selectValue, setSelectValue] = useState("");
   const [searchString, setSearchString] = useState("");
-  const [isFiltered, setIsFiltered] = useState(false);
   const categories = getCategories(products.products);
 
   //fetch Data
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchProducts());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setFilteredProducts(products.products);
@@ -39,11 +38,7 @@ const ProductsPage = () => {
       );
     });
     setFilteredProducts(filteredProducts);
-    setIsFiltered(true);
-    if (searchString == "") {
-      setIsFiltered(false);
-    }
-  }, [searchString]);
+  }, [searchString, products.products]);
 
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,14 +53,12 @@ const ProductsPage = () => {
     const filteredCategory = products.products.filter((p) => {
       return p.category.includes(selectValue);
     });
-    if (selectValue != "Category") {
+    if (selectValue !== "Category") {
       setFilteredProducts(filteredCategory);
-      setIsFiltered(true);
     } else {
-      setIsFiltered(false);
       setFilteredProducts(products.products);
     }
-  }, [selectValue]);
+  }, [selectValue, products.products]);
 
   function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
     const value = event.target.value;
@@ -141,17 +134,6 @@ const ProductsPage = () => {
           </ul>
         </div>
       ) : null}
-      {/* {!products.loading && products.products.length ? (
-        <div className=" my-12 mx-10">
-          <ul className="grid grid-cols-3 gap-4">
-            {filteredProducts.map((product: Product) => (
-              <li className="w-full md:w-1/2 lg:w-1/3 p-2" key={product.id}>
-                <ProductCard product={product} />
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null} */}
     </>
   );
 };

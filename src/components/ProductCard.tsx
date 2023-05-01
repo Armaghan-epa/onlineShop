@@ -1,22 +1,6 @@
-import {
-  ReactElement,
-  JSXElementConstructor,
-  ReactFragment,
-  ReactPortal,
-} from "react";
 import { useAppDispatch } from "../hooks/hooks";
 import { cartActions } from "../store/reducers/cart-slice";
 import { Product } from "../types/Product";
-
-// const p: Product = {
-//   id: 1,
-//   title: "Swatshirt",
-//   price: 25.0,
-//   category: "clothes",
-//   description: "crew-colorfull-very beautiful",
-//   image:
-//     "https://img01.ztat.net/article/spp-media-p1/0b43e2fbff1042d1a5479e81f0b342d9/1fadfe9ce441443bb99b6190b8d83518.jpg?imwidth=500&filter=packshot",
-// };
 
 const ProductCard = (props: { product: Product }) => {
   const dispatch = useAppDispatch();

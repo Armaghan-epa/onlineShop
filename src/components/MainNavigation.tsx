@@ -11,20 +11,20 @@ function MainNavigation() {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchUser());
-  }, []);
+  }, [dispatch]);
 
   return (
     <nav className="bg-gray-200 flex justify-between items-center h-12">
       <div className="flex items-center ms-9">
         <NavLink to="user" className="flex">
-          <img src={profileIcon} className="h-8 w-8" />
+          <img src={profileIcon} alt="profile_icon" className="h-8 w-8" />
           <span className="ml-2 text-gray-700">
             Hi, {user.user?.name.firstname}
           </span>
         </NavLink>
       </div>
       <NavLink to="/onlineShop">
-        <img src={logo} className="h-10" />
+        <img src={logo} alt="logo" className="h-10" />
       </NavLink>
       <div>
         <NavLink to="cart" className="flex space-x-2 justify-between me-12">

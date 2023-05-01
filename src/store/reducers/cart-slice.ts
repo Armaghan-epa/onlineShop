@@ -1,17 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CartItemType } from "../../types/CartItem";
-import { Product } from "../../types/Product";
 
 type initialStateType = {
   items: CartItemType[];
   totalQuantity: number;
   changed: boolean;
+  sumOfPrices: number;
 };
 
 const initialState: initialStateType = {
   items: [],
   totalQuantity: 0,
   changed: false,
+  sumOfPrices: 0,
 };
 
 const cartSlice = createSlice({
@@ -32,9 +33,11 @@ const cartSlice = createSlice({
           name: newItem.title,
           description: newItem.description,
         });
+        state.sumOfPrices += newItem.price;
       } else {
         existingItem.quantity++;
         existingItem.totalPrice = existingItem.totalPrice + newItem.price;
+        state.sumOfPrices += newItem.price;
       }
     },
     removeItemFromCart(state, action: PayloadAction<number>) {
@@ -44,9 +47,11 @@ const cartSlice = createSlice({
       state.changed = true;
       if (existingItem.quantity === 1) {
         state.items = state.items.filter((item) => item.id !== id);
+        state.sumOfPrices -= existingItem.price;
       } else {
         existingItem.quantity--;
         existingItem.totalPrice = existingItem.totalPrice - existingItem.price;
+        state.sumOfPrices -= existingItem.price;
       }
     },
   },

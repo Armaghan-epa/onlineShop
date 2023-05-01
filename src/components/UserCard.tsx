@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { fetchUser } from "../store/reducers/user-slice";
-import { User } from "../types/User";
 
 const UserCard = () => {
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(fetchUser());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

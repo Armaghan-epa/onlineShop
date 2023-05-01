@@ -1,10 +1,15 @@
+import { useMemo } from "react";
 import CartItem from "../components/CartItem";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
-import { cartActions } from "../store/reducers/cart-slice";
+import CartTotalRow from "../components/CartTotalRow";
+import { useAppSelector } from "../hooks/hooks";
 import { CartItemType } from "../types/CartItem";
 
 const CartPage = () => {
   const items = useAppSelector((state) => state.cart.items);
+  const itemsMemo = useMemo(() => {
+    return items;
+  }, [items]);
+  const sumOfPrices = useAppSelector((state) => state.cart.sumOfPrices);
 
   return (
     <>
@@ -16,13 +21,13 @@ const CartPage = () => {
             </div>
 
             <tr className="flex rounded-md px-7 pt-10 pb-5 bg-gray-500">
-              <td className="font-semibold text-center text-gray-100 text-xs uppercase w-1/6">
+              <td className="font-semibold text-center text-gray-100 text-xs uppercase w-1/12">
                 number
               </td>
               <td className="font-semibold text-center text-gray-100 text-xs uppercase w-1/6 text-center">
                 Title
               </td>
-              <td className="font-semibold text-center text-gray-100 text-xs uppercase w-1/6 text-center">
+              <td className="font-semibold text-center text-gray-100 text-xs uppercase w-3/12 text-center">
                 description
               </td>
               <td className="font-semibold text-center text-gray-100 text-xs uppercase w-1/6 text-center">
@@ -36,11 +41,13 @@ const CartPage = () => {
               </td>
             </tr>
 
-            {items.map((item: CartItemType) => (
+            {itemsMemo.map((item: CartItemType) => (
               <div key={item.id}>
                 <CartItem item={item} />
               </div>
             ))}
+
+            <CartTotalRow totalValue={sumOfPrices} />
           </div>
         </div>
       </div>
