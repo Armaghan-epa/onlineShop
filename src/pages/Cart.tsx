@@ -27,7 +27,7 @@ const CartPage = () => {
               <td className="font-semibold text-center text-gray-100 text-xs uppercase w-1/6 text-center">
                 Title
               </td>
-              <td className="font-semibold text-center text-gray-100 text-xs uppercase w-3/12 text-center">
+              <td className="font-semibold text-center text-gray-100 text-xs uppercase w-3/12 text-center hidden md:block">
                 description
               </td>
               <td className="font-semibold text-center text-gray-100 text-xs uppercase w-1/6 text-center">

@@ -45,7 +45,7 @@ const CartItem = React.memo((props: { item: CartItemType }) => {
       <td className="flex justify-center w-1/6 pe-3">
         <span>{item.name}</span>
       </td>
-      <td className="flex justify-center w-3/12">
+      <td className="flex justify-center w-3/12 hidden md:block">
         <span>{item.description}</span>
       </td>
       <td className="flex justify-center w-1/6">
