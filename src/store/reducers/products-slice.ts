@@ -3,9 +3,9 @@ import axios from "axios";
 import { Product } from "../../types/Product";
 
 type initialStateType = {
-  loading: Boolean;
+  loading: boolean;
   products: Product[];
-  error?: String;
+  error?: string;
 };
 
 const initialState: initialStateType = {

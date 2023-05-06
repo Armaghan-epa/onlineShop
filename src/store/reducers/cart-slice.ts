@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CartItemType } from "../../types/CartItem";
 
@@ -30,7 +31,7 @@ const cartSlice = createSlice({
           price: newItem.price,
           quantity: 1,
           totalPrice: newItem.price,
-          name: newItem.title,
+          name: newItem.name,
           description: newItem.description,
         });
         state.sumOfPrices += newItem.price;
@@ -45,7 +46,7 @@ const cartSlice = createSlice({
       const existingItem: any = state.items.find((item) => item.id === id);
       state.totalQuantity--;
       state.changed = true;
-      if (existingItem.quantity === 1) {
+      if (existingItem?.quantity === 1) {
         state.items = state.items.filter((item) => item.id !== id);
         state.sumOfPrices -= existingItem.price;
       } else {

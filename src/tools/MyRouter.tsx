@@ -1,3 +1,4 @@
+import React from "react";
 import ErrorPage from "../pages/Error";
 import ProductsPage from "../pages/Products";
 import RootLayout from "../pages/Root";

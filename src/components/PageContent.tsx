@@ -1,3 +1,4 @@
+import React from "react";
 interface PageContentProps {
   title: string;
   children: React.ReactNode;

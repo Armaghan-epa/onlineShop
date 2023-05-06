@@ -1,3 +1,5 @@
+import React from "react";
+
 const CartTotalRow = (props: { totalValue: number }) => {
   const total = props.totalValue.toFixed(2);
   return (

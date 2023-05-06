@@ -2,19 +2,19 @@ export type User = {
   id: number;
   email: string;
   username: string;
-  password: String;
+  password: string;
   name: {
-    firstname: String;
-    lastname: String;
+    firstname: string;
+    lastname: string;
   };
   address: {
     city: string;
-    street: String;
-    number: String;
-    zipcode: String;
+    street: string;
+    number: string;
+    zipcode: string;
     geolocation: {
-      lat: String;
-      long: String;
+      lat: string;
+      long: string;
     };
   };
   phone: string;

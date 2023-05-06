@@ -1,3 +1,4 @@
+import React from "react";
 import { useAppDispatch } from "../hooks/hooks";
 import { cartActions } from "../store/reducers/cart-slice";
 import { Product } from "../types/Product";

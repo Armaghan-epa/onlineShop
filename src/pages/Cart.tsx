@@ -1,3 +1,4 @@
+import React from "react";
 import { useMemo } from "react";
 import CartItem from "../components/CartItem";
 import CartTotalRow from "../components/CartTotalRow";
@@ -21,22 +22,22 @@ const CartPage = () => {
             </div>
 
             <tr className="flex rounded-md px-7 pt-10 pb-5 bg-gray-500">
-              <td className="font-semibold text-center text-gray-100 text-xs uppercase w-1/12">
+              <td className="font-semibold text-center text-gray-100 text-xs uppercase w-1/12 hidden md:block">
                 number
               </td>
-              <td className="font-semibold text-center text-gray-100 text-xs uppercase w-1/6 text-center">
+              <td className="font-semibold text-center text-gray-100 text-xs uppercase w-1/4 md:w-1/6 text-center">
                 Title
               </td>
               <td className="font-semibold text-center text-gray-100 text-xs uppercase w-3/12 text-center hidden md:block">
                 description
               </td>
-              <td className="font-semibold text-center text-gray-100 text-xs uppercase w-1/6 text-center">
+              <td className="font-semibold text-center text-gray-100 text-xs uppercase w-1/4 md:w-1/6 text-center">
                 Quantity
               </td>
-              <td className="font-semibold text-center text-gray-100 text-xs uppercase w-1/6 text-center">
+              <td className="font-semibold text-center text-gray-100 text-xs uppercase w-1/4 md:w-1/6 text-center">
                 Price
               </td>
-              <td className="font-semibold text-center text-gray-100 text-xs uppercase w-1/6 text-center">
+              <td className="font-semibold text-center text-gray-100 text-xs uppercase w-1/4 md:w-1/6 text-center">
                 Total Price
               </td>
             </tr>

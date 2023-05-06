@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { cartActions } from "../store/reducers/cart-slice";
 import { CartItemType } from "../types/CartItem";
 
+// eslint-disable-next-line react/display-name
 const CartItem = React.memo((props: { item: CartItemType }) => {
   const items = useAppSelector((state) => state.cart.items);
   const dispatch = useAppDispatch();
@@ -39,16 +40,16 @@ const CartItem = React.memo((props: { item: CartItemType }) => {
 
   return (
     <tr className="flex items-center divide-black rounded-md px-6 py-5 even:bg-gray-100 odd:bg-gray-300">
-      <td className="flex justify-center w-1/12">
+      <td className="flex justify-center w-1/4 md:w-1/12 hidden md:block">
         <span>{number}</span>
       </td>
-      <td className="flex justify-center w-1/6 pe-3">
+      <td className="flex justify-center w-1/4 md:w-1/6 pe-3">
         <span>{item.name}</span>
       </td>
       <td className="flex justify-center w-3/12 hidden md:block">
         <span>{item.description}</span>
       </td>
-      <td className="flex justify-center w-1/6">
+      <td className="flex justify-center w-1/4 md:w-1/6">
         <button
           className=" w-6 h-5 bg-red-500 rounded-full sm:w-8 sm:h-6"
           onClick={removeItemHandler}
@@ -75,8 +76,10 @@ const CartItem = React.memo((props: { item: CartItemType }) => {
           </svg>
         </button>
       </td>
-      <td className="text-center w-1/6 font-semibold text-sm">${item.price}</td>
-      <td className="text-center w-1/6 font-semibold text-sm">
+      <td className="text-center w-1/4 md:w-1/6 font-semibold text-sm">
+        ${item.price}
+      </td>
+      <td className="text-center w-1/4 md:w-1/6 font-semibold text-sm">
         ${totalPriceFixed}
       </td>
       <button

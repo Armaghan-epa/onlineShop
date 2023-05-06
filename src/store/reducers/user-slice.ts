@@ -3,9 +3,9 @@ import axios from "axios";
 import { User } from "../../types/User";
 
 type initialStateType = {
-  loading: Boolean;
+  loading: boolean;
   user: User | null;
-  error?: String;
+  error?: string;
 };
 
 const initialState: initialStateType = {
