@@ -43,10 +43,10 @@ const CartItem = React.memo((props: { item: CartItemType }) => {
       <td className="flex justify-center w-1/4 md:w-1/12 hidden md:block">
         <span>{number}</span>
       </td>
-      <td className="flex justify-center w-1/4 md:w-1/6 pe-3">
+      <td className="flex justify-center text-center w-1/4 md:w-1/6 pe-3">
         <span>{item.name}</span>
       </td>
-      <td className="flex justify-center w-3/12 hidden md:block">
+      <td className="flex justify-center text-center w-3/12 hidden md:block">
         <span>{item.description}</span>
       </td>
       <td className="flex justify-center w-1/4 md:w-1/6">
